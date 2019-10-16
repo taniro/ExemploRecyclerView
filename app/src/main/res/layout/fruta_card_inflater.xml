@@ -34,4 +34,5 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/nomeFruta" />
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
