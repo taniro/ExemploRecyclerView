@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerview.layoutManager = layout
 
+        /*
         recyclerview.addOnItemTouchListener(
             MyRecyclerViewClickListener(
                 this@MainActivity,
@@ -72,7 +73,9 @@ class MainActivity : AppCompatActivity() {
                 })
         )
 
-        recyclerview.itemAnimator = DefaultItemAnimator()
+         */
+
+        //recyclerview.itemAnimator = DefaultItemAnimator()
         //recyclerview.itemAnimator = LandingAnimator()
         //recyclerview.itemAnimator = FlipInTopXAnimator()
     }
