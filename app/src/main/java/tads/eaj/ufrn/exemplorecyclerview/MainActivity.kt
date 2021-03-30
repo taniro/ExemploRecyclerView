@@ -9,6 +9,8 @@ import com.google.android.material.snackbar.Snackbar
 import android.widget.Toast
 import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator
 import jp.wasabeef.recyclerview.animators.LandingAnimator
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
@@ -26,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var f1 = Fruta ("Maça", R.drawable.fruit)
-        var f2 = Fruta ("Maça", R.drawable.fruit)
-        var f3 = Fruta ("Maça", R.drawable.fruit)
+        val f1 = Fruta ("Maça", R.drawable.fruit)
+        val f2 = Fruta ("Pera", R.drawable.fruit)
+        val f3 = Fruta ("Uva", R.drawable.fruit)
 
         with(db.frutaDao()){
             add(f1)
@@ -36,14 +38,42 @@ class MainActivity : AppCompatActivity() {
             add(f3)
         }
 
-        var listaFrutas:MutableList<Fruta> = db.frutaDao().listAll()
+        val listaFrutas:MutableList<Fruta> = db.frutaDao().listAll()
 
-        var adapter = FrutaAdapter(this, listaFrutas)
+        //val adapter = FrutaAdapter(this, listaFrutas)
+
+        val adapter = NovoFrutaAdapter()
+        adapter.frutas = listaFrutas
+
         recyclerview.adapter = adapter
 
-        val layout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val layout = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        //val layout = StaggeredGridLayoutManager(10, StaggeredGridLayoutManager.HORIZONTAL)
 
         recyclerview.layoutManager = layout
+
+        recyclerview.addOnItemTouchListener(NovoRecyclerViewClickListener(this, recyclerview,
+            object : NovoRecyclerViewClickListener.onItemClickListener{
+                override fun onItemClick(v: View, position: Int) {
+                    Toast.makeText(this@MainActivity, "Clique simples", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onItemLongClick(v: View, position: Int) {
+                    val removida = listaFrutas[position]
+                    listaFrutas.remove(removida)
+                    recyclerview.adapter!!.notifyItemRemoved(position)
+                    Toast.makeText(this@MainActivity, "Clique longo", Toast.LENGTH_SHORT)
+                        .show()
+                    val snack = Snackbar.make(
+                        recyclerview.parent as View,"Removido",Snackbar.LENGTH_LONG )
+                        .setAction("Cancelar") {
+                            listaFrutas.add(position, removida)
+                            recyclerview.adapter!!.notifyItemInserted(position)
+                        }
+                    snack.show()
+                }
+            }))
 
         /*
         recyclerview.addOnItemTouchListener(
@@ -74,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         )
 
          */
+
 
         //recyclerview.itemAnimator = DefaultItemAnimator()
         //recyclerview.itemAnimator = LandingAnimator()
