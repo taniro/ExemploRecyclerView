@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerview.layoutManager = layout
 
+        /*
         binding.recyclerview.addOnItemTouchListener(NovoRecyclerViewClickListener(this, binding.recyclerview,
             object : NovoRecyclerViewClickListener.onItemClickListener{
                 override fun onItemClick(v: View, position: Int) {
@@ -78,6 +79,8 @@ class MainActivity : AppCompatActivity() {
                     snack.show()
                 }
             }))
+
+         */
 
         /*
         binding.recyclerview.addOnItemTouchListener(

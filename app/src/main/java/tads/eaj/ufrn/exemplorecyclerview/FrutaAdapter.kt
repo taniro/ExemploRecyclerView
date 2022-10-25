@@ -1,6 +1,7 @@
 package tads.eaj.ufrn.exemplorecyclerview
 
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class FrutaAdapter(var c:Context, var frutas:List<Fruta>) : RecyclerView.Adapter
 
         if (frutaescolhida.bitten) {
             holder.img.setImageResource(R.drawable.bitten)
+            Log.i("AULA", "passou")
         } else {
             holder.img.setImageResource(R.drawable.fruit)
         }
